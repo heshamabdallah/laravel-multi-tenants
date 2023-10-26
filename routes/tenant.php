@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenant\OrdersController;
+use App\Http\Controllers\Tenant\ProductsController;
+use App\Http\Controllers\Tenant\UsersController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -19,11 +22,16 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 */
 
 Route::middleware([
-    'web',
+    'api',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
-    Route::get('/', function () {
-        return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
-    });
+    Route::apiResource('/users', UsersController::class)
+        ->only('index', 'store', 'show');
+
+    Route::apiResource('/products', ProductsController::class)
+        ->only('index', 'store', 'show');
+
+    Route::apiResource('/orders', OrdersController::class)
+        ->only('index', 'store', 'show');
 });
