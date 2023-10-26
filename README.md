@@ -18,7 +18,13 @@ cp .env.example .env
 composer install
 ```
 
-3. Get the project started
+4. Run migration
+```shell
+php artisan migrate
+php artisan tenants:migrate
+```
+
+5. Get the project started
 ```shell
 php artisan serve
 ```
